@@ -1,0 +1,100 @@
+/* background */
+html {
+    background: #ebecf0;
+    min-height: 100%;
+    min-width: 1000px;
+}
+
+#app {
+    background: #ebecf0;
+    min-height: 100%;
+}
+/* end background */
+
+.keycaps-hovered:hover {
+    border: 1.5px solid green !important;
+}
+
+.keycaps-custom {
+    height: 45px;
+    border-radius: 5px 5px 5px 5px;
+    border: 1px solid #0073ff;
+    margin: 3px;
+    background: white;
+    overflow-x: scroll;
+    overflow: hidden;
+}
+
+.default-setting-keys {
+    border-radius: 5px 5px 5px 5px;
+    border: 1px solid #0073ff;
+    margin: 3px;
+    background: white;
+    overflow-x: scroll;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.keycaps-45 {
+    width: 45px;
+    height: 45px;
+}
+
+.keycaps-65 {
+    width: 67px;
+    height: 45px;
+}
+
+.keycaps-70 {
+    width: 70px;
+    height: 45px;
+}
+
+.keycaps-85 {
+    width: 85px;
+    height: 45px;
+}
+
+.keycaps-57 {
+    width: 57px;
+    height: 45px;
+}
+
+.keycaps-75 {
+    width: 70px;
+    height: 45px;
+}
+
+.keycaps-90 {
+    width: 92px;
+    height: 45px;
+}
+
+.keycaps-100 {
+    width: 100px;
+    height: 45px;
+}
+.keycaps-103 {
+    width: 103px;
+    height: 45px;
+}
+
+.keycaps-112 {
+    width: 112px;
+    height: 45px;
+}
+
+.keycaps-120 {
+    width: 127px;
+    height: 45px;
+}
+
+.keycaps-150 {
+    width: 315px;
+    height: 45px;
+}
+
+.keysBg {
+    background: rgb(40, 124, 40);
+    color: white;
+}

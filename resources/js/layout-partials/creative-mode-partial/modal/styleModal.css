@@ -1,0 +1,31 @@
+.key-press-input {
+  display: inline-block;
+  width: 100px;
+  height: 40px;
+
+  border: 1px solid black;
+  border-radius: 2px;
+  font-size: 15px;
+}
+
+.key-press-input:hover {
+  border: 1px solid green;
+  animation: blink 0.7s infinite;
+  cursor: pointer;
+}
+
+@keyframes blink {
+  50% {
+    border-color: #fff;
+  }
+}
+
+.lable-key-press input[type="radio"]:checked + .key-press-input {
+  background-color: green;
+  color: white;
+  border: 2px solid #0073ff;
+}
+
+.key-press-input-text {
+  top: 50%;
+}

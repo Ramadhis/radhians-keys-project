@@ -1,0 +1,150 @@
+.container-drag {
+  display: flex;
+  width: 100%;
+  /* justify-content: center;
+  align-items: center;
+  margin-top: 100px; */
+}
+
+.wall {
+  width: 30px;
+  height: 30px;
+  border: solid 1px transparent;
+}
+
+.drag-area-dragging {
+  border: 1px solid black;
+  border-style: dashed;
+  padding: 2px;
+  animation: blink 1s infinite;
+  /* animation-iteration-count: 5; */
+}
+
+@keyframes blink {
+  50% {
+    border-color: #fff;
+  }
+}
+
+.menu-position-left {
+  float: left;
+  padding: 1px;
+  width: 35px;
+  /* border: 1px solid green; */
+  display: inline-block;
+  text-align: center;
+}
+
+.menu-position-right {
+  float: right;
+  padding: 1px;
+  width: 35px;
+  /* border: 1px solid green; */
+  display: inline-block;
+  text-align: center;
+  margin-left: 30px;
+}
+
+.drop-area-left {
+  margin-top: 2px;
+  padding-left: 5px;
+  display: flex;
+  min-height: 45px;
+  margin-left: 30px;
+}
+
+.drop-area-right {
+  margin-top: 2px;
+  padding-left: 5px;
+  display: flex;
+  min-height: 45px;
+  margin-left: 0px;
+  margin-right: 50px;
+}
+
+.menu-item {
+  /* border: 1px solid orangered; */
+}
+
+.inner-container {
+  /* border: 1px solid #999999; */
+  background: white;
+  padding: 2px;
+  margin: 10px;
+  margin-right: 30px;
+}
+.inlineCss {
+  display: inline-block;
+}
+
+.row-drop {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  /* border: 2px solid #0dafe9; */
+  border: 1px solid #999999;
+  background: white;
+  margin: 8px;
+  /* padding-right: 30px; */
+  min-height: 30px;
+  min-width: 1000px;
+  cursor: move !important;
+}
+
+.row-drop:hover {
+  border: 2px solid green;
+}
+
+.row-drop > .menu-list {
+  background-color: white;
+  align-items: flex-start;
+  margin: 6px;
+}
+
+.menu-list > .menu {
+  align-items: stretch;
+  flex-direction: start;
+  align-items: flex-start;
+}
+
+.drag-col {
+}
+
+.col {
+  border: 1px solid black;
+  margin: 2px;
+}
+
+/* key list */
+.key {
+  border: 1px solid rgba(255, 0, 0, 0);
+}
+
+.key:hover {
+  border: 1px solid #0073ff;
+  border-right: none;
+  cursor: pointer;
+}
+
+/* if card hover */
+.card-custom:hover {
+  border: 1px solid;
+  border-color: blue;
+}
+
+.lbl input[type="radio"]:checked + .key {
+  border: 1px solid #0073ff;
+  border-right: none;
+}
+
+/* End list */
+
+/* hide circle in radio button */
+.radio-none {
+  display: none;
+}
+
+.card-header-custom {
+  color: white;
+  background: #393939;
+}
