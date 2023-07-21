@@ -29,7 +29,7 @@ use App\Http\Controllers\AuthClient\ForgotPasswordController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::resource('/posts', PostController::class);
+// Route::resource('/posts', PostController::class);
 route::resource('/layout', CreativeModeController::class);
 
 
