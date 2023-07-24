@@ -127,7 +127,8 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
                                                             src={`/images/${data.preview_layout}`}
                                                             className="imagePreview"
                                                             style={{
-                                                                width: "250px",
+                                                                maxWidth:
+                                                                    "200px",
                                                             }}
                                                         />
                                                     ) : (

@@ -21,7 +21,6 @@ const SavePreview = ({ refLayout, displayLoading, keys }) => {
                                                     whiteSpace: "nowrap",
                                                 }}
                                             >
-                                                a
                                                 {k.column.map((col, key2) => {
                                                     return (
                                                         <div

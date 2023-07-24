@@ -259,6 +259,26 @@ const creativeMode = () => {
         ],
     };
 
+    let blankLayout = {
+        keyDownBorder: " 1px solid blue ",
+        keyDownBackground: "lightskyblue",
+        fontSize: "13px",
+        row: [
+            {
+                id: v4(),
+                column: [],
+            },
+            {
+                id: v4(),
+                column: [],
+            },
+            {
+                id: v4(),
+                column: [],
+            },
+        ],
+    };
+
     // let layout61 = {
     //     keyDownBorder: " 1px solid blue ",
     //     keyDownBackground: "lightskyblue",
@@ -1450,7 +1470,7 @@ const creativeMode = () => {
         let countColumn = keys.row[findIndex].column.length;
         //set max key in 1 row
         if (countColumn >= 50) {
-            return alert("you reach max keys in on row");
+            return alert("you reach max keys in one row");
         }
 
         let row = [...keys.row];
@@ -1649,7 +1669,7 @@ const creativeMode = () => {
                 id: "",
                 idUser: "",
                 layoutName: "newLayout",
-                layoutData: defaultLayout,
+                layoutData: blankLayout,
             });
 
             return sessionStorage.setItem(
@@ -1658,7 +1678,7 @@ const creativeMode = () => {
                     id: "",
                     idUser: "",
                     layoutName: "newLayout",
-                    layoutData: defaultLayout,
+                    layoutData: blankLayout,
                 })
             );
         }, 800);
