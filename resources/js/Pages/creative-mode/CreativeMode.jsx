@@ -17,9 +17,10 @@ import { Link, usePage } from "@inertiajs/inertia-react";
 import { createFileName, useScreenshot } from "use-react-screenshot";
 import SavePreview from "../../layout-partials/creative-mode-partial/creative-mode-core/SavePreview";
 import BlockUi from "../../layout-partials/block-ui/BlockUi";
+import TutorialCreativeMode from "../../layout-partials/creative-mode-partial/creative-mode-core/TutorialCreativeMode";
 
 const creativeMode = () => {
-    const [handleUiBlock, sethandleUiBlock] = useState(false);
+    const [handleUiBlock, setHandleUiBlock] = useState(false);
     const { auth, errors, session } = usePage().props;
 
     const refLayout = useRef();
@@ -1608,7 +1609,20 @@ const creativeMode = () => {
         imageLayout: "",
     });
 
-    const [displayLoading, setDisplayLoading] = useState("none");
+    const [displayLoading, setDisplayLoading] = useState("none"); //SavePreview
+    const [handleShowTutorial, setHandleShowTutorial] = useState("none");
+
+    const startTutorial = () => {
+        setHandleUiBlock(true);
+        setTimeout(() => {
+            setHandleUiBlock(false);
+            setHandleShowTutorial("block");
+        }, 1000);
+    };
+
+    const hideTutorial = () => {
+        return setHandleShowTutorial("none");
+    };
 
     const saveAll = async (e) => {
         e.preventDefault();
@@ -1660,7 +1674,7 @@ const creativeMode = () => {
 
     //new blank page
     const newBlankPage = () => {
-        sethandleUiBlock(true);
+        setHandleUiBlock(true);
 
         setTimeout(() => {
             sessionStorage.removeItem("lastSavedData");
@@ -1732,6 +1746,10 @@ const creativeMode = () => {
     return (
         <>
             <BlockUi handleShow={handleUiBlock} />
+            <TutorialCreativeMode
+                handleShow={handleShowTutorial}
+                hideTutorial={hideTutorial}
+            />
             <SavePreview
                 refLayout={refLayout}
                 displayLoading={displayLoading}
@@ -1787,8 +1805,19 @@ const creativeMode = () => {
                                             {...provided.droppableProps}
                                             ref={provided.innerRef}
                                         >
-                                            <div className="form-text">
-                                                right click to delete items/keys
+                                            <div className="row">
+                                                <div className="form-text w-50 ps-3">
+                                                    right click to delete
+                                                    items/keys
+                                                </div>
+                                                <a
+                                                    href="#"
+                                                    onClick={startTutorial}
+                                                    className="form-text w-50 text-end pe-4"
+                                                >
+                                                    Quick tutorial
+                                                    <i className="ps-1 bi bi-play-btn"></i>
+                                                </a>
                                             </div>
                                             {keys.row.map((dat, key) => {
                                                 return (

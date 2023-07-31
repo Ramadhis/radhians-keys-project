@@ -365,7 +365,7 @@ const AuthModal = ({
 
                                 <div className="col-6 h-100">
                                     <img
-                                        src="/images/IMG20221212061057.jpg"
+                                        src="/images/modal-auth-image.png"
                                         style={{
                                             width: "100%",
                                             height: "530px",

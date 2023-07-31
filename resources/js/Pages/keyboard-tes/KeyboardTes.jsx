@@ -413,26 +413,25 @@ const keyboardTes = ({ layoutData }) => {
                             </div>
                         </div>
                     </Link>
-                    <div
-                        className="select-layout-border"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                            return changeLayout(21);
-                        }}
-                    >
-                        <img
-                            src="/assets/image/layout61keys.png"
-                            className="mx-auto d-block"
-                            style={{ width: "80px" }}
-                            alt=""
-                        />
+                    <Link href="/keyboard-tes/3">
                         <div
-                            className="d-flex justify-content-center text-white"
-                            style={{ fontSize: "14px" }}
+                            className="select-layout-border"
+                            style={{ cursor: "pointer" }}
                         >
-                            Numpad
+                            <img
+                                src="/assets/image/layout61keys.png"
+                                className="mx-auto d-block"
+                                style={{ width: "80px" }}
+                                alt=""
+                            />
+                            <div
+                                className="d-flex justify-content-center text-white"
+                                style={{ fontSize: "14px" }}
+                            >
+                                Numpad
+                            </div>
                         </div>
-                    </div>
+                    </Link>
                     <a href="/creative-mode">
                         <div className="select-layout-border">
                             <img
