@@ -30,7 +30,7 @@ class ForgotPasswordController extends Controller
         try {
 
 
-            Mail::to('m.ramadhiansyah.i@gmail.com')->send(new MailNotify($data));
+            Mail::to($req->email)->send(new MailNotify($data));
             // return response()->json(['oke aja']);
             DB::table('password_resets')->insert([
                 'email' => $req->email,

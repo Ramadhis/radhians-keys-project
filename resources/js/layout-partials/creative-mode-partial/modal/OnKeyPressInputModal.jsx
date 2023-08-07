@@ -513,7 +513,7 @@ const OnKeyPressInputModal = ({
 
     //apply set pressed Code
     const applyPressedCode = () => {
-        console.log("applied press code", pressedCode);
+        // console.log("applied press code", pressedCode);
         setOnKeysPressCode(pressedCode);
         //reset modal state pressedCode
         setPressedCode("");
@@ -522,7 +522,7 @@ const OnKeyPressInputModal = ({
 
     const searchKeysPressList = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
+        // console.log(e.target.value);
         const collectKey = [];
         keysPressList.find((val) => {
             if (val.keyword.indexOf(e.target.value) > -1) {
@@ -530,7 +530,7 @@ const OnKeyPressInputModal = ({
             }
         });
         setListCollectKey(collectKey);
-        console.log(collectKey);
+        // console.log(collectKey);
     };
 
     return (
@@ -577,7 +577,7 @@ const OnKeyPressInputModal = ({
                         <div
                             className="w-100 radio-group"
                             onChange={(e) => {
-                                console.log(e.target.value);
+                                // console.log(e.target.value);
                                 return setPressedCode(e.target.value);
                             }}
                         >

@@ -17,6 +17,7 @@ const keyboardTes = ({ layoutData }) => {
     const [collect, setCollect] = useState();
     const [statusChangeLayout, setStatusChangeLayout] = useState(false);
     const [stateLayout, setStateLayout] = useState(null);
+    let call = useRef([]);
 
     //template empty layout
     let layoutEmpty = {
@@ -26,7 +27,6 @@ const keyboardTes = ({ layoutData }) => {
         row: [],
     };
 
-    let call = useRef([]);
     // const [keys, setKeys] = useState(
     //     layoutData ? JSON.parse(layoutData.layout_data) : layout87
     // );
@@ -68,9 +68,6 @@ const keyboardTes = ({ layoutData }) => {
 
     const keyDownPressed = (event) => {
         // stops its action
-
-        console.log("keydown", event.code);
-
         switch (event.code) {
             case "Quote":
                 event.preventDefault();
@@ -84,7 +81,16 @@ const keyboardTes = ({ layoutData }) => {
             case "Tab":
                 event.preventDefault();
                 break;
+            case "F1":
+                event.preventDefault();
+                break;
+            case "F2":
+                event.preventDefault();
+                break;
             case "F3":
+                event.preventDefault();
+                break;
+            case "F4":
                 event.preventDefault();
                 break;
             case "F5":
@@ -119,22 +125,25 @@ const keyboardTes = ({ layoutData }) => {
         if (keys.row !== undefined) {
             //find index using event code
             let getIndex = findIndex(event.code);
-            console.log("getIndex", getIndex);
-            console.log(keys);
+            // console.log("getIndex", getIndex);
+            // console.log(keys);
             setPressed(event.code);
             // const element2 = (call.current["1-1"].style.border = "1px solid blue");
 
             //foreach index of ref
             getIndex.forEach((val, index) => {
                 // call.current[`${val}`].style.border = keys[0].keyDownBorder;
+                if (call.current[`${val}`] != null) {
+                    call.current[`${val}`].style.background =
+                        keys.keyDownBackground;
+                    call.current[`${val}`].classList.add("keysBg");
+                }
 
-                call.current[`${val}`].style.background =
-                    keys.keyDownBackground;
-                call.current[`${val}`].classList.add("keysBg");
                 // call.current[`${val}`].style = {
                 //   border: "1px solid red",
                 // };
             });
+
             return true;
         } else {
             return false;
@@ -143,15 +152,13 @@ const keyboardTes = ({ layoutData }) => {
 
     const keyUpPressed = (event) => {
         event.preventDefault();
-        // console.log("keyup");
-
         //find index using event code
         let getIndex = findIndex(event.code);
 
         //if printscreen pressed, because printscreen not detected in keydown
         if (keys.row !== undefined) {
             if (event.code === "PrintScreen") {
-                console.log("print");
+                // console.log("print");
 
                 getIndex.forEach((val, index) => {
                     call.current[`${val}`].style.background =
@@ -167,7 +174,10 @@ const keyboardTes = ({ layoutData }) => {
 
         //reset
         getIndex.forEach((val, index) => {
-            call.current[`${val}`].style.background = null;
+            if (call.current[`${val}`] != null) {
+                call.current[`${val}`].style.background = null;
+            }
+
             // call.current[`${val}`].style.border = "1px solid black";
         });
     };
@@ -187,7 +197,7 @@ const keyboardTes = ({ layoutData }) => {
     //clicked keys
     const clk = () => {
         const element2 = call.current;
-        console.log(element2);
+        // console.log(element2);
     };
 
     const [state, setState] = useState("");
@@ -199,7 +209,7 @@ const keyboardTes = ({ layoutData }) => {
 
     const changeLayout = ($code) => {
         setStatusChangeLayout(true);
-        console.log($code);
+        // console.log($code);
         //reset all ref
         if ($code === 61) {
             setKeys(layout61);
@@ -239,74 +249,83 @@ const keyboardTes = ({ layoutData }) => {
                             <table
                                 style={{ overflowY: "scroll", width: "100%" }}
                             >
-                                {arr.row !== undefined ? (
-                                    arr.row.length != 0 ? (
-                                        arr.row.map((k, key) => {
-                                            return (
-                                                <tr
-                                                    key={key}
-                                                    style={{
-                                                        whiteSpace: "nowrap",
-                                                    }}
-                                                >
-                                                    {k.column.map(
-                                                        (col, key2) => {
-                                                            return (
-                                                                <div
-                                                                    key={key2}
-                                                                    className="d-inline"
-                                                                >
-                                                                    <Keys
-                                                                        width={
-                                                                            col.keyWidth
-                                                                        }
-                                                                        colId={
-                                                                            col.id
-                                                                        }
-                                                                        creativeMode={
-                                                                            false
-                                                                        }
-                                                                        clk={
-                                                                            clk
-                                                                        }
-                                                                        sendRef={
-                                                                            call
-                                                                        }
-                                                                        i={key2}
-                                                                        type={
-                                                                            col.type
-                                                                        }
-                                                                        id={`${
-                                                                            key +
-                                                                            "-" +
-                                                                            key2
-                                                                        }`}
-                                                                        styleCode={
-                                                                            col.styleCode
-                                                                        }
-                                                                        legend={
-                                                                            col.legend
-                                                                        }
-                                                                        keyPressCode={
-                                                                            col.keyPressCode
-                                                                        }
-                                                                        fontSize={
-                                                                            keys.fontSize
-                                                                        }
-                                                                    ></Keys>
-                                                                </div>
-                                                            );
-                                                        }
-                                                    )}
-                                                </tr>
-                                            );
-                                        })
-                                    ) : (
-                                        <div className="h3 m-5 ">
-                                            Layout Not Found
-                                        </div>
-                                    )
-                                ) : null}
+                                <tbody>
+                                    {arr.row !== undefined ? (
+                                        arr.row.length != 0 ? (
+                                            arr.row.map((k, key) => {
+                                                return (
+                                                    <tr
+                                                        key={key}
+                                                        style={{
+                                                            whiteSpace:
+                                                                "nowrap",
+                                                        }}
+                                                    >
+                                                        <td>
+                                                            {k.column.map(
+                                                                (col, key2) => {
+                                                                    return (
+                                                                        <div
+                                                                            key={
+                                                                                key2
+                                                                            }
+                                                                            className="d-inline"
+                                                                        >
+                                                                            <Keys
+                                                                                width={
+                                                                                    col.keyWidth
+                                                                                }
+                                                                                colId={
+                                                                                    col.id
+                                                                                }
+                                                                                creativeMode={
+                                                                                    false
+                                                                                }
+                                                                                clk={
+                                                                                    clk
+                                                                                }
+                                                                                sendRef={
+                                                                                    call
+                                                                                }
+                                                                                i={
+                                                                                    key2
+                                                                                }
+                                                                                type={
+                                                                                    col.type
+                                                                                }
+                                                                                id={`${
+                                                                                    key +
+                                                                                    "-" +
+                                                                                    key2
+                                                                                }`}
+                                                                                styleCode={
+                                                                                    col.styleCode
+                                                                                }
+                                                                                legend={
+                                                                                    col.legend
+                                                                                }
+                                                                                keyPressCode={
+                                                                                    col.keyPressCode
+                                                                                }
+                                                                                fontSize={
+                                                                                    keys.fontSize
+                                                                                }
+                                                                            ></Keys>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
+                                        ) : (
+                                            <div className="h3 m-5 ">
+                                                Layout Not Found
+                                            </div>
+                                        )
+                                    ) : null}
+                                </tbody>
                             </table>
                         </div>
                         <div className="form-text w-100">
@@ -342,7 +361,7 @@ const keyboardTes = ({ layoutData }) => {
                         className="float-end mx-2 my-2 screen-shot-button"
                     >
                         <i
-                            class="bi bi-fullscreen"
+                            className="bi bi-fullscreen"
                             style={{
                                 fontSize: "35px",
                                 position: "absolute",
@@ -351,7 +370,7 @@ const keyboardTes = ({ layoutData }) => {
                             }}
                         ></i>
                         <i
-                            class="bi bi-camera"
+                            className="bi bi-camera"
                             style={{
                                 fontSize: "25px",
                                 position: "absolute",

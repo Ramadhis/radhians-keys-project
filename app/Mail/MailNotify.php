@@ -25,7 +25,7 @@ class MailNotify extends Mailable
     }
 
     public function build() {
-        return $this->from('rama@mail.com','tes')
+        return $this->from('admin@radhianskey.my.id','System')
         ->subject($this->data['subject'])
         ->view('email.forgetPassword')->with('data',$this->data);
     }

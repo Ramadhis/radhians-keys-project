@@ -31,7 +31,7 @@ const ChangePassword = ({
         if (handleChangePasswordModal) {
             if (session.forgotpassword) {
                 setHandleBlockUi(false);
-                console.log(session.forgotpassword);
+                // console.log(session.forgotpassword);
             }
 
             if (errors) {

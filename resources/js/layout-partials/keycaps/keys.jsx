@@ -15,18 +15,18 @@ const keys = ({
     width,
 }) => {
     const handleKeyDown = (event) => {
-        console.log("tes", `${event.which} == ${keyPressCode}`);
-        console.log("User pressed: ", legend);
+        // console.log("tes", `${event.which} == ${keyPressCode}`);
+        // console.log("User pressed: ", legend);
     };
 
     const handleLeftClick = () => {
-        console.log("leftClick");
+        // console.log("leftClick");
         return clk(id, true);
     };
 
     const handleRightClick = (e) => {
         e.preventDefault();
-        console.log("rightClick");
+        // console.log("rightClick");
         return clk(id, false);
     };
 

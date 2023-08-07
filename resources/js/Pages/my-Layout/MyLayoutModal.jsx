@@ -6,19 +6,23 @@ import { usePage } from "@inertiajs/inertia-react";
 import axios from "axios";
 
 const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
-    const [layoutList, setLayoutList] = useState(null);
+    const [layoutList, setLayoutList] = useState([]);
     const { auth, errors, session } = usePage().props;
+
+    const getSessionStorage = () => {
+        return JSON.parse(sessionStorage.getItem("lastSavedData"));
+    };
 
     const getLayoutListdata = async () => {
         return await axios.get("/my-layout").then((response) => {
-            console.log(response);
+            // console.log(response);
             return setLayoutList(Array.from(response.data.data));
         });
     };
 
     useEffect(() => {
         if (showModalMyLayout === true) {
-            console.log("modal myLayout Open");
+            // console.log("modal myLayout Open");
             getLayoutListdata();
         }
     }, [showModalMyLayout]);
@@ -39,11 +43,16 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
     };
 
     const loadDataCreativeMode = async (id) => {
+        let getSessionStorageData = getSessionStorage();
+
+        if (getSessionStorageData && getSessionStorageData.id == id) {
+            return alert("you are in this layout");
+        }
         return await axios
             .get(`/loadLayout/${id}`)
             .then((response) => {
                 alert("success load data");
-                console.log(response.data);
+                // console.log(response.data);
                 let getData = response.data.data;
                 sessionStorage.removeItem("lastSavedData");
                 let setLoad = {
@@ -64,6 +73,13 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
     };
 
     const deleteData = async (id) => {
+        let getSessionStorageData = getSessionStorage();
+
+        if (getSessionStorageData && getSessionStorageData.id == id) {
+            return alert(
+                "you cannot delete the layout data that you are currently using"
+            );
+        }
         return await axios
             .delete(`/my-layout/${id}`)
             .then((response) => {
@@ -74,6 +90,7 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
                 alert(err.message);
             });
     };
+
     return (
         <>
             <Modal
@@ -116,7 +133,16 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {layoutList ? (
+                                {layoutList.length == 0 ? (
+                                    <tr>
+                                        <td
+                                            colSpan={"5"}
+                                            className="text-center"
+                                        >
+                                            No data saved
+                                        </td>
+                                    </tr>
+                                ) : (
                                     layoutList.map((data, key) => {
                                         return (
                                             <tr key={key}>
@@ -195,10 +221,6 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
                                             </tr>
                                         );
                                     })
-                                ) : (
-                                    <tr>
-                                        <td>kosong</td>
-                                    </tr>
                                 )}
                             </tbody>
                         </table>

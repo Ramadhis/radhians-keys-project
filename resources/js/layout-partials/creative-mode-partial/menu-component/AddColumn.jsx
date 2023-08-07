@@ -13,7 +13,7 @@ const AddColumn = ({
     let height = window.screen.availHeight;
 
     const dragStop = (e, dragElement) => {
-        console.log(`x: ${dragElement.x} y:${dragElement.y} `);
+        // console.log(`x: ${dragElement.x} y:${dragElement.y} `);
         setMenuAddPosFunc(dragElement.x, dragElement.y);
         return true;
     };

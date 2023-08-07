@@ -51,13 +51,34 @@ const TutorialCreativeMode = ({ handleShow, hideTutorial }) => {
     };
 
     const finish = () => {
+        let getLocalStorageData = JSON.parse(
+            localStorage.getItem("stateStore")
+        );
+
+        if (getLocalStorageData) {
+            getLocalStorageData = {
+                ...getLocalStorageData,
+                tutorialCompletion: true,
+            };
+            localStorage.setItem(
+                "stateStore",
+                JSON.stringify(getLocalStorageData)
+            );
+        } else {
+            getLocalStorageData = { tutorialCompletion: true };
+            localStorage.setItem(
+                "stateStore",
+                JSON.stringify(getLocalStorageData)
+            );
+        }
+
         return hideTutorial();
     };
 
     return (
         <div
             className="position-fixed w-100 h-100"
-            style={{ zIndex: "1000", display: handleShow }}
+            style={{ zIndex: "1000", display: handleShow ? "block" : "none" }}
         >
             <div
                 className="w-100 h-100 d-flex justify-content-center"

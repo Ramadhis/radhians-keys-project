@@ -20,19 +20,36 @@ import BlockUi from "../../layout-partials/block-ui/BlockUi";
 import TutorialCreativeMode from "../../layout-partials/creative-mode-partial/creative-mode-core/TutorialCreativeMode";
 
 const creativeMode = () => {
+    const [displayLoading, setDisplayLoading] = useState(false); //SavePreview
+    const [handleShowTutorial, setHandleShowTutorial] = useState(false);
     const [handleUiBlock, setHandleUiBlock] = useState(false);
     const { auth, errors, session } = usePage().props;
 
-    const refLayout = useRef();
+    const refLayout = useRef(); // get ref (layout) for take screenshot layout
     const [image, takeScreenshot] = useScreenshot({
         type: "image/jpeg",
         quality: 0.5,
     });
 
     useEffect(() => {
-        if (errors) {
-            console.log(errors);
+        // if (errors) {
+        //     console.log(errors);
+        // }
+
+        if (handleShowTutorial == false) {
+            let getLocalStorageData = JSON.parse(
+                localStorage.getItem("stateStore")
+            );
+
+            if (getLocalStorageData) {
+                if (getLocalStorageData.tutorialCompletion == false) {
+                    setHandleShowTutorial(true);
+                }
+            } else {
+                setHandleShowTutorial(true);
+            }
         }
+
         //return data
         if (session.data) {
             //set id after user save layout for first time
@@ -1316,13 +1333,13 @@ const creativeMode = () => {
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
         setIsMounted(true);
-        console.log(keys);
+        // console.log(keys);
     }, []);
     //end to fix error Unable to find draggable with id: without disabled strict mode
 
     // dragEnd for dragdropContext
     const handleDragEnd = (val) => {
-        console.log(val);
+        // console.log(val);
 
         //destination = dropped item
         let destination = val.destination;
@@ -1331,7 +1348,7 @@ const creativeMode = () => {
 
         // drag drop validation
         if (!destination) {
-            console.log("not dropped in droppable");
+            // console.log("not dropped in droppable");
             return;
         }
 
@@ -1339,7 +1356,7 @@ const creativeMode = () => {
             destination.index === source.index &&
             destination.droppableId == source.droppableId
         ) {
-            console.log("drop in same place");
+            // console.log("drop in same place");
             return;
         }
 
@@ -1357,7 +1374,7 @@ const creativeMode = () => {
                 return { ...prev, row: arrKeys };
                 //End swap array in row object
             });
-            console.log(keys);
+            // console.log(keys);
         } else if (
             source.droppableId != "all-columns" &&
             destination.droppableId != "all-columns"
@@ -1405,7 +1422,7 @@ const creativeMode = () => {
 
     const [placeholderProps, setPlaceholderProps] = useState({});
     const onDragUpdate = (update) => {
-        console.log("onDragUpdate", update);
+        // console.log("onDragUpdate", update);
     };
 
     //list add column
@@ -1455,7 +1472,7 @@ const creativeMode = () => {
 
     const [selectedColRadio, setSelectedColRadio] = useState("1");
     const radioChecked = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         return setSelectedColRadio(`${e.target.value}`);
     };
 
@@ -1464,8 +1481,8 @@ const creativeMode = () => {
         let findIndex = keys.row.findIndex((key) => {
             return key.id === id;
         });
-        console.log("add key", findIndex);
-        console.log("count column", keys.row[findIndex].column.length);
+        // console.log("add key", findIndex);
+        // console.log("count column", keys.row[findIndex].column.length);
 
         //count all key in 1 row
         let countColumn = keys.row[findIndex].column.length;
@@ -1493,12 +1510,12 @@ const creativeMode = () => {
     };
 
     const deleteRow = (id) => {
-        console.log("delete", id);
+        // console.log("delete", id);
         try {
             let findIndexKeys = keys.row.findIndex((key) => {
                 return key.id == id;
             });
-            console.log(findIndexKeys);
+            // console.log(findIndexKeys);
             let row = [...keys.row];
             row.splice(findIndexKeys, 1);
             setKeys((prev) => {
@@ -1528,7 +1545,7 @@ const creativeMode = () => {
             setSelectedRowColKeys(id);
             call.current[`${id}`].classList.add("keysBg");
             let getDatabyRowCol = null;
-            console.log("clicked", getDatabyRowCol);
+            // console.log("clicked", getDatabyRowCol);
             setPrevClicked(`${id}`);
             if (keys) {
                 getDatabyRowCol = {
@@ -1579,7 +1596,6 @@ const creativeMode = () => {
         return;
     };
 
-    //reset edit column/keys
     const resetEditColumn = () => {
         // remove class for reset status clicked
         if (prevClicked !== null) {
@@ -1591,7 +1607,6 @@ const creativeMode = () => {
         setFormEdit(null);
     };
 
-    //drag start
     const handleDragstart = () => {
         resetEditColumn();
     };
@@ -1609,25 +1624,22 @@ const creativeMode = () => {
         imageLayout: "",
     });
 
-    const [displayLoading, setDisplayLoading] = useState("none"); //SavePreview
-    const [handleShowTutorial, setHandleShowTutorial] = useState("none");
-
     const startTutorial = () => {
         setHandleUiBlock(true);
         setTimeout(() => {
             setHandleUiBlock(false);
-            setHandleShowTutorial("block");
+            setHandleShowTutorial(true);
         }, 1000);
     };
 
     const hideTutorial = () => {
-        return setHandleShowTutorial("none");
+        return setHandleShowTutorial(false);
     };
 
     const saveAll = async (e) => {
         e.preventDefault();
         if (auth.user) {
-            setDisplayLoading("block");
+            setDisplayLoading(true);
             let createImage = null;
 
             setTimeout(async () => {
@@ -1635,13 +1647,13 @@ const creativeMode = () => {
             }, 1000);
 
             setTimeout(() => {
-                setDisplayLoading("none");
+                setDisplayLoading(false);
             }, 3000);
 
             setTimeout(async () => {
-                console.log(createImage);
+                // console.log(createImage);
                 if (savingData.id != "") {
-                    console.log("layout update", savingData);
+                    // console.log("layout update", savingData);
                     //for update layout
                     Inertia.put("/layout", {
                         ...savingData,
@@ -1724,7 +1736,7 @@ const creativeMode = () => {
         setSavingData((prev) => {
             return { ...prev, layoutName: name };
         });
-        console.log(name);
+        // console.log(name);
     };
 
     const resetMenuPos = () => {

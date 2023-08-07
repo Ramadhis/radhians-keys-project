@@ -9,7 +9,7 @@ const loginModal = () => {
 
     const submit = () => {
         e.preventDefault();
-        console.log("success");
+        // console.log("success");
     };
 
     return (

@@ -39,7 +39,7 @@ const EditColumn = ({
     const applyEdit = (e) => {
         e.preventDefault();
         if (formData) {
-            console.log(formData);
+            // console.log(formData);
 
             //for status apply (Apply success !)
             applyStatus.current.classList.remove("d-none");
@@ -65,7 +65,7 @@ const EditColumn = ({
 
     //for form OnKeyPressInputModal
     const setOnKeysPressCode = (val) => {
-        console.log("value", val);
+        // console.log("value", val);
         setFormData((prev) => {
             return { ...prev, keyPressCode: val };
         });
@@ -80,7 +80,7 @@ const EditColumn = ({
     let height = window.screen.availHeight;
 
     const dragStop = (e, dragElement) => {
-        console.log(`x: ${dragElement.x} y:${dragElement.y} `);
+        // console.log(`x: ${dragElement.x} y:${dragElement.y} `);
         setMenuEditPosFunc(dragElement.x, dragElement.y);
         return true;
     };

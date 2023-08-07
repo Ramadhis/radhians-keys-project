@@ -46,7 +46,7 @@ const Header = () => {
     };
 
     const hideMyLayoutModal = () => {
-        console.log("close");
+        // console.log("close");
         return setModalMyLayout(false);
     };
 
@@ -72,9 +72,9 @@ const Header = () => {
         Inertia.post("/logout-user");
     };
 
-    useEffect(() => {
-        console.log(auth);
-    }, []);
+    // useEffect(() => {
+    //     console.log(auth);
+    // }, []);
 
     return (
         <>
