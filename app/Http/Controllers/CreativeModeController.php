@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Layout;
+use File;
 
 class CreativeModeController extends Controller
 {
@@ -32,6 +33,11 @@ class CreativeModeController extends Controller
 
             $fileName = uniqid() . '.'.$imageType;
             $saveFileTo = $folderPath . $fileName;
+
+            //check for directory/folder
+            $directoryPath = public_path().'/images';
+            File::isDirectory($directoryPath) or File::makeDirectory($directoryPath, 0777, true, true);
+
             try {
                 file_put_contents($saveFileTo, $image_base64);
             } catch (Throwable $e) {
@@ -85,6 +91,11 @@ class CreativeModeController extends Controller
                 $oldFileName = explode(".",$findData->preview_layout);
                 $fileName = $oldFileName[0] . '.'.$imageType;
                 $saveFileTo = $folderPath . $fileName;
+
+                //check for directory/folder
+                $directoryPath = public_path().'/images';
+                File::isDirectory($directoryPath) or File::makeDirectory($directoryPath, 0777, true, true);
+                
                 try {
                     file_put_contents($saveFileTo, $image_base64);
                 } catch (Throwable $e) {
