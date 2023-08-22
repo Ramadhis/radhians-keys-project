@@ -321,7 +321,7 @@ const AuthModal = ({
                                                 className="float-end"
                                             >
                                                 {formSelection === "sign-in"
-                                                    ? "Login"
+                                                    ? "sign-in"
                                                     : "sign up"}
                                             </Button>
                                             <Button

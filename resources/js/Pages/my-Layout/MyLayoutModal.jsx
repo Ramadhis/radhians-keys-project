@@ -4,10 +4,25 @@ import { Inertia } from "@inertiajs/inertia";
 import "./myLayout.css";
 import { usePage } from "@inertiajs/inertia-react";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+//sweetalert
+import Swal from "sweetalert2";
+import "animate.css";
+//sweetalert
 
 const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
     const [layoutList, setLayoutList] = useState([]);
     const { auth, errors, session } = usePage().props;
+
+    const swalCustom = Swal.mixin({
+        customClass: {
+            title: "h5 text-start",
+            confirmButton: "btn btn-success me-2 ps-4 pe-4 text-end",
+            denyButton: "btn btn-danger me-2 ps-4 pe-4",
+            actions: "w-100 d-flex justify-content-end pe-4",
+        },
+        buttonsStyling: false,
+    });
 
     const getSessionStorage = () => {
         return JSON.parse(sessionStorage.getItem("lastSavedData"));
@@ -46,48 +61,77 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
         let getSessionStorageData = getSessionStorage();
 
         if (getSessionStorageData && getSessionStorageData.id == id) {
-            return alert("you are in this layout");
+            // return alert("you are in this layout");
+            return swalCustom.fire("you are in this layout");
         }
-        return await axios
-            .get(`/loadLayout/${id}`)
-            .then((response) => {
-                alert("success load data");
-                // console.log(response.data);
-                let getData = response.data.data;
-                sessionStorage.removeItem("lastSavedData");
-                let setLoad = {
-                    id: getData.id,
-                    idUser: getData.id_user,
-                    layoutName: getData.name_layout,
-                    layoutData: JSON.parse(getData.layout_data),
-                };
-                sessionStorage.setItem(
-                    "lastSavedData",
-                    JSON.stringify(setLoad)
-                );
-                location.href = "/creative-mode";
+
+        swalCustom
+            .fire({
+                title: "Are you sure you want to load this data ?, you will lose the current data",
+                showDenyButton: true,
+                confirmButtonText: "Yes",
+                denyButtonText: "No",
             })
-            .catch((err) => {
-                alert(err.message);
+            .then(async (result) => {
+                if (result.isConfirmed) {
+                    await axios
+                        .get(`/loadLayout/${id}`)
+                        .then((response) => {
+                            let getData = response.data.data;
+                            sessionStorage.removeItem("lastSavedData");
+                            let setLoad = {
+                                id: getData.id,
+                                idUser: getData.id_user,
+                                layoutName: getData.name_layout,
+                                layoutData: JSON.parse(getData.layout_data),
+                            };
+                            sessionStorage.setItem(
+                                "lastSavedData",
+                                JSON.stringify(setLoad)
+                            );
+                            location.href = "/creative-mode";
+                        })
+                        .catch((err) => {
+                            alert(err.message);
+                        });
+                } else if (result.isDenied) {
+                    return false;
+                }
             });
+        return;
     };
 
     const deleteData = async (id) => {
         let getSessionStorageData = getSessionStorage();
-
         if (getSessionStorageData && getSessionStorageData.id == id) {
-            return alert(
+            // return alert(
+            //     "you cannot delete the layout data that you are currently using"
+            // );
+            return swalCustom.fire(
                 "you cannot delete the layout data that you are currently using"
             );
         }
-        return await axios
-            .delete(`/my-layout/${id}`)
-            .then((response) => {
-                alert("success deleting data");
-                getLayoutListdata(id);
+        swalCustom
+            .fire({
+                title: "are you sure want to delete this layout ?",
+                showDenyButton: true,
+                confirmButtonText: "Yes",
+                denyButtonText: "No",
             })
-            .catch((err) => {
-                alert(err.message);
+            .then(async (result) => {
+                if (result.isConfirmed) {
+                    return await axios
+                        .delete(`/my-layout/${id}`)
+                        .then((response) => {
+                            // alert("success deleting data");
+                            getLayoutListdata(id);
+                        })
+                        .catch((err) => {
+                            alert(err.message);
+                        });
+                } else if (result.isDenied) {
+                    return false;
+                }
             });
     };
 
@@ -205,13 +249,9 @@ const MyLayoutModal = ({ showModalMyLayout, hideMyLayoutModal }) => {
                                                     <button
                                                         className="btn btn-sm btn-danger w-100 mt-1"
                                                         onClick={() => {
-                                                            return confirm(
-                                                                "are you sure want to delete this layout ?"
-                                                            )
-                                                                ? deleteData(
-                                                                      data.id
-                                                                  )
-                                                                : "cancel";
+                                                            return deleteData(
+                                                                data.id
+                                                            );
                                                         }}
                                                     >
                                                         <i className="bi bi-trash me-1 float-start"></i>

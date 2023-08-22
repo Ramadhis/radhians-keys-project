@@ -18,6 +18,10 @@ import { createFileName, useScreenshot } from "use-react-screenshot";
 import SavePreview from "../../layout-partials/creative-mode-partial/creative-mode-core/SavePreview";
 import BlockUi from "../../layout-partials/block-ui/BlockUi";
 import TutorialCreativeMode from "../../layout-partials/creative-mode-partial/creative-mode-core/TutorialCreativeMode";
+//sweetalert
+import Swal from "sweetalert2";
+import "animate.css";
+//sweetalert
 
 const creativeMode = () => {
     const [displayLoading, setDisplayLoading] = useState(false); //SavePreview
@@ -29,6 +33,16 @@ const creativeMode = () => {
     const [image, takeScreenshot] = useScreenshot({
         type: "image/jpeg",
         quality: 0.5,
+    });
+
+    const swalCustom = Swal.mixin({
+        customClass: {
+            title: "h5 text-start",
+            confirmButton: "btn btn-success me-2 ps-4 pe-4 text-end",
+            denyButton: "btn btn-danger me-2 ps-4 pe-4",
+            actions: "w-100 d-flex justify-content-end pe-4",
+        },
+        buttonsStyling: false,
     });
 
     useEffect(() => {
@@ -1680,43 +1694,73 @@ const creativeMode = () => {
                 );
             }, 2000);
         } else {
-            alert("you must login before saving layout");
+            swalCustom.fire("you must sign-in before saving layout");
+            // alert("you must sign-in before saving layout");
         }
     };
 
     //new blank page
     const newBlankPage = () => {
-        setHandleUiBlock(true);
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                title: "h5 text-start",
+                confirmButton: "btn btn-success me-2 ps-4 pe-4 text-end",
+                denyButton: "btn btn-danger me-2 ps-4 pe-4",
+                actions: "w-100 d-flex justify-content-end pe-4",
+            },
+            buttonsStyling: false,
+        });
+        swalWithBootstrapButtons
+            .fire({
+                title: "are you sure want create new with blank page ?",
+                showDenyButton: true,
+                confirmButtonText: "yes",
+                denyButtonText: "No",
+                showClass: {
+                    popup: "animate__animated animate__fadeIn",
+                },
+                hideClass: {
+                    popup: "animate__animated animate__fadeOut",
+                },
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    // Swal.fire("Saved!", "", "success");
+                    setHandleUiBlock(true);
+                    setTimeout(() => {
+                        sessionStorage.removeItem("lastSavedData");
+                        setKeys(defaultLayout);
+                        setSavingData({
+                            id: "",
+                            idUser: "",
+                            layoutName: "newLayout",
+                            layoutData: blankLayout,
+                        });
 
-        setTimeout(() => {
-            sessionStorage.removeItem("lastSavedData");
-            setKeys(defaultLayout);
-            setSavingData({
-                id: "",
-                idUser: "",
-                layoutName: "newLayout",
-                layoutData: blankLayout,
+                        return sessionStorage.setItem(
+                            "lastSavedData",
+                            JSON.stringify({
+                                id: "",
+                                idUser: "",
+                                layoutName: "newLayout",
+                                layoutData: blankLayout,
+                            })
+                        );
+                    }, 800);
+                    setTimeout(() => {
+                        return window.location.reload(true);
+                    }, 1200);
+                } else if (result.isDenied) {
+                    return false;
+                }
             });
-
-            return sessionStorage.setItem(
-                "lastSavedData",
-                JSON.stringify({
-                    id: "",
-                    idUser: "",
-                    layoutName: "newLayout",
-                    layoutData: blankLayout,
-                })
-            );
-        }, 800);
-        setTimeout(() => {
-            return window.location.reload(true);
-        }, 1200);
     };
 
     const runTes = () => {
         let getSessionStorageData = JSON.parse(
             sessionStorage.getItem("lastSavedData")
         );
+
         if (auth.user) {
             if (getSessionStorageData.id) {
                 let id = getSessionStorageData.id;
@@ -1725,10 +1769,12 @@ const creativeMode = () => {
                     "_blank" // <- This is what makes it open in a new window.
                 );
             } else {
-                alert("you must save this layout before run tes");
+                swalCustom.fire("you must save this layout before run tes");
+                // alert("you must save this layout before run tes");
             }
         } else {
-            alert("you must login before saving layout");
+            swalCustom.fire("you must save this layout before run tes");
+            // alert("you must sign-in before saving layout");
         }
     };
 
@@ -1987,13 +2033,7 @@ const creativeMode = () => {
                                             {provided.placeholder}
                                             <button
                                                 className="btn btn-sm btn-danger mt-3"
-                                                onClick={() => {
-                                                    return confirm(
-                                                        "are you sure want create new with blank page ?"
-                                                    )
-                                                        ? newBlankPage()
-                                                        : "cancel";
-                                                }}
+                                                onClick={newBlankPage}
                                             >
                                                 <i className="bi bi-file-earmark me-1"></i>
                                                 New Blank Page
